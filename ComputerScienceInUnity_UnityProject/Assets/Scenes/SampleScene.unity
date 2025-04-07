@@ -1108,7 +1108,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1489164958}
         m_TargetAssemblyTypeName: AddUIController, Assembly-CSharp
-        m_MethodName: TurnOff
+        m_MethodName: ClearAll
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5414,6 +5414,7 @@ MonoBehaviour:
   - {fileID: 1863438930}
   - {fileID: 2001432041}
   _executeButton: {fileID: 161136229}
+  _clearButton: {fileID: 213273596}
 --- !u!1 &1521360221
 GameObject:
   m_ObjectHideFlags: 0

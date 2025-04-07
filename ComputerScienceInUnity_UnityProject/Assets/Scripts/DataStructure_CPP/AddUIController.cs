@@ -16,6 +16,7 @@ public class AddUIController : MonoBehaviour
     [SerializeField] private TMP_InputField _repeatCount;
     [SerializeField] private List<GameObject> _sticks;
     [SerializeField] private Button _executeButton;
+    [SerializeField] private Button _clearButton;
 
     private List<IListWrapper> _listWrappers = new List<IListWrapper>(){new ArrayListWrapper(), new ListObjectWrapper(), new ListIntWrapper(), new LinkedListWrapper()};
         
@@ -33,7 +34,8 @@ public class AddUIController : MonoBehaviour
             Console.WriteLine(e);
             throw;
         }
-        
+
+        _clearButton.interactable = false;
         _executeButton.interactable = false;
         ExecuteAllAsync(repeatCount).Forget();
     }
@@ -44,14 +46,14 @@ public class AddUIController : MonoBehaviour
 
         for (int i = 0; i < _listWrappers.Count; i++)
         {
-            int curIndex = i;
-            var wrapper = _listWrappers[curIndex];
+            var wrapper = _listWrappers[i];
 
-            var task = wrapper.MeasurePerformance(repeatCount, wrapper.AddRepeatedly, _sticks[curIndex]);
+            var task = wrapper.MeasurePerformance(repeatCount, wrapper.AddRepeatedly, _sticks[i]);
             tasks.Add(task);
         }
 
         await UniTask.WhenAll(tasks);
+        _clearButton.interactable = true;
         _executeButton.interactable = true;
     }
 
