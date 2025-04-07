@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using PimDeWitte.UnityMainThreadDispatcher;
 using TMPro;
 using UnityEngine;
@@ -17,9 +18,6 @@ public class AddUIController : MonoBehaviour
     [SerializeField] private Button _executeButton;
 
     private List<IListWrapper> _listWrappers = new List<IListWrapper>(){new ArrayListWrapper(), new ListObjectWrapper(), new ListIntWrapper(), new LinkedListWrapper()};
-    
-    private int _coroutineDoneCount = 0;
-    private int _totalCoroutineCount = 4;
         
     public void ExecuteButton_Clicked()
     {
@@ -37,37 +35,24 @@ public class AddUIController : MonoBehaviour
         }
         
         _executeButton.interactable = false;
-        int index = 0;
-        
-        foreach (var wrapper in _listWrappers)
-        {
-            Debug.Log(index);
-            int cur = index;
-            Task.Run(() => wrapper.MeasurePerformance(repeatCount, wrapper.AddRepeatedly, _sticks[cur]));
-            index++;
-        }
+        ExecuteAllAsync(repeatCount).Forget();
     }
     
-    private IEnumerator ChangeStickHeight(GameObject stick, float elapsedMilliseconds, int interval, int duration)
+    private async UniTask ExecuteAllAsync(int repeatCount)
     {
-        Debug.Log(elapsedMilliseconds);
-        float dividedTime = elapsedMilliseconds / interval;
-        string text = elapsedMilliseconds.ToString();
-        while (elapsedMilliseconds > 0)
+        var tasks = new List<UniTask>();
+
+        for (int i = 0; i < _listWrappers.Count; i++)
         {
-            // 높이:시간 = 1:10 (ex 오브젝트의 height가 100이라면 1000ms를 의미)
-            stick.GetComponent<RectTransform>().sizeDelta += new Vector2(0, dividedTime/10);
-            elapsedMilliseconds -= dividedTime;
-            yield return new WaitForSeconds((float)duration/interval);
+            int curIndex = i;
+            var wrapper = _listWrappers[curIndex];
+
+            var task = wrapper.MeasurePerformance(repeatCount, wrapper.AddRepeatedly, _sticks[curIndex]);
+            tasks.Add(task);
         }
-        stick.GetComponent<BarController>().TimeText.text = text;
-        
-        _coroutineDoneCount++;
-        if (_coroutineDoneCount == _totalCoroutineCount)
-        {
-            _coroutineDoneCount = 0;
-            _executeButton.interactable = true;
-        }
+
+        await UniTask.WhenAll(tasks);
+        _executeButton.interactable = true;
     }
 
     public void ClearAll()
