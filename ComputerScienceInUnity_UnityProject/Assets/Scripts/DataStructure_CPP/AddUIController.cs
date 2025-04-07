@@ -15,11 +15,8 @@ public class AddUIController : MonoBehaviour
     [SerializeField] private TMP_InputField _repeatCount;
     [SerializeField] private List<GameObject> _sticks;
     [SerializeField] private Button _executeButton;
-    
-    private ArrayList _arrayList = new ArrayList();
-    private List<object> _list = new List<object>();
-    private List<int> _listInt = new List<int>();
-    private LinkedList<int> _linkedList = new LinkedList<int>();
+
+    private List<IListWrapper> _listWrappers = new List<IListWrapper>(){new ArrayListWrapper(), new ListObjectWrapper(), new ListIntWrapper(), new LinkedListWrapper()};
     
     private int _coroutineDoneCount = 0;
     private int _totalCoroutineCount = 4;
@@ -40,72 +37,16 @@ public class AddUIController : MonoBehaviour
         }
         
         _executeButton.interactable = false;
-        Task task = new Task(()=>ExecuteArrayListAdd(repeatCount));
-        task.Start();
+        int index = 0;
         
-        Task task2 = new Task(() => ExecuteListObjectAdd(repeatCount));
-        task2.Start();
-        
-        Task task3 = new Task(() => ExecuteListIntAdd(repeatCount));
-        task3.Start();
-        
-        Task task4 = new Task(() => ExecuteLinkedListIntAdd(repeatCount));
-        task4.Start();
-    }
-    
-    // 중복 코드 줄일 수 있음
-    private void ExecuteArrayListAdd(int repeatCount)
-    {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-        for (int i = 0; i < repeatCount; i++)
+        foreach (var wrapper in _listWrappers)
         {
-            _arrayList.Add(i);
+            Debug.Log(index);
+            int cur = index;
+            Task.Run(() => wrapper.MeasurePerformance(repeatCount, wrapper.AddRepeatedly, _sticks[cur]));
+            index++;
         }
-        stopwatch.Stop();
-        float measure = stopwatch.ElapsedMilliseconds;
-        UnityMainThreadDispatcher.Instance().Enqueue(ChangeStickHeight(_sticks[0], measure,300,3));
     }
-    
-    private void ExecuteListObjectAdd(int repeatCount)
-    {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-        for (int i = 0; i < repeatCount; i++)
-        {
-            _list.Add(i);
-        }
-        stopwatch.Stop();
-        float measure = stopwatch.ElapsedMilliseconds;
-        UnityMainThreadDispatcher.Instance().Enqueue(ChangeStickHeight(_sticks[1], measure,300,3));
-    }
-    
-    private void ExecuteListIntAdd(int repeatCount)
-    {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-        for (int i = 0; i < repeatCount; i++)
-        {
-            _listInt.Add(i);
-        }
-        stopwatch.Stop();
-        float measure = stopwatch.ElapsedMilliseconds;
-        UnityMainThreadDispatcher.Instance().Enqueue(ChangeStickHeight(_sticks[2], measure,300,3));
-    }
-    
-    private void ExecuteLinkedListIntAdd(int repeatCount)
-    {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-        for (int i = 0; i < repeatCount; i++)
-        {
-            _linkedList.AddFirst(i);
-        }
-        stopwatch.Stop();
-        float measure = stopwatch.ElapsedMilliseconds;
-        UnityMainThreadDispatcher.Instance().Enqueue(ChangeStickHeight(_sticks[3], measure,300,3));
-    }
-
     
     private IEnumerator ChangeStickHeight(GameObject stick, float elapsedMilliseconds, int interval, int duration)
     {
@@ -131,10 +72,10 @@ public class AddUIController : MonoBehaviour
 
     public void ClearAll()
     {
-        _arrayList.Clear();
-        _list.Clear();
-        _listInt.Clear();
-        _linkedList.Clear();
+        foreach (var wrapper in _listWrappers)
+        {
+            wrapper.Clear();
+        }
 
         foreach (var stick in _sticks)
         {
