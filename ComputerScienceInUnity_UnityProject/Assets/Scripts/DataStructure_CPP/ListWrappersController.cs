@@ -7,19 +7,27 @@ using Cysharp.Threading.Tasks;
 using PimDeWitte.UnityMainThreadDispatcher;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 using Debug = UnityEngine.Debug;
 
-public class AddUIController : MonoBehaviour
+public class ListWrappersController : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _repeatCount;
     [SerializeField] private List<GameObject> _sticks;
     [SerializeField] private Button _executeButton;
     [SerializeField] private Button _clearButton;
+    [FormerlySerializedAs("_listType")] [SerializeField] private FunctionType _functionType;
 
-    private List<IListWrapper> _listWrappers = new List<IListWrapper>(){new ArrayListWrapper(), new ListObjectWrapper(), new ListIntWrapper(), new LinkedListWrapper()};
-        
+    private static List<IListWrapper> _listWrappers = new (){new ArrayListWrapper(), new ListObjectWrapper(), new ListIntWrapper(), new LinkedListWrapper()};
+    //private Dictionary<FunctionType, Action<int>> _listFunction = new Dictionary<FunctionType, Action<int>>();
+
+    private void Awake()
+    {
+        //_listFunction[FunctionType.Add] = 
+    }
+
     public void ExecuteButton_Clicked()
     {
         ClearAll();
@@ -37,10 +45,10 @@ public class AddUIController : MonoBehaviour
 
         _clearButton.interactable = false;
         _executeButton.interactable = false;
-        ExecuteAllAsync(repeatCount).Forget();
+        ExecuteAllAsync(repeatCount,_functionType).Forget();
     }
     
-    private async UniTask ExecuteAllAsync(int repeatCount)
+    private async UniTask ExecuteAllAsync(int repeatCount, FunctionType listType)
     {
         var tasks = new List<UniTask>();
 
@@ -48,7 +56,21 @@ public class AddUIController : MonoBehaviour
         {
             var wrapper = _listWrappers[i];
 
-            var task = wrapper.MeasurePerformance(repeatCount, wrapper.AddRepeatedly, _sticks[i]);
+            UniTask task= default;
+            
+            switch (listType)
+            {
+                case FunctionType.Add:
+                    task = wrapper.MeasurePerformance(repeatCount, wrapper.AddRepeatedly, _sticks[i]);
+                    break;
+                case FunctionType.Insert:
+                    task = wrapper.MeasurePerformance(repeatCount, wrapper.InsertRepeatedly, _sticks[i]);
+                    break;
+                case FunctionType.Remove:
+                    task = wrapper.MeasurePerformance(repeatCount, wrapper.RemoveRepeatedly, _sticks[i]);
+                    break;
+            }
+            
             tasks.Add(task);
         }
 
@@ -59,11 +81,14 @@ public class AddUIController : MonoBehaviour
 
     public void ClearAll()
     {
-        foreach (var wrapper in _listWrappers)
+        if (FunctionType.Add == _functionType)
         {
-            wrapper.Clear();
+            foreach (var wrapper in _listWrappers)
+            {
+                wrapper.Clear();
+            }    
         }
-
+        
         foreach (var stick in _sticks)
         {
             // 높이 초기화

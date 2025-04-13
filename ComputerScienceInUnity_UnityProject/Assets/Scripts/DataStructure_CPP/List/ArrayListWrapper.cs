@@ -16,7 +16,10 @@ public class ArrayListWrapper : IListWrapper
 
     public void InsertRepeatedly(int repeatCount)
     {
-        throw new System.NotImplementedException();
+        for (int i = 0; i < repeatCount; i++)
+        {
+            _arrayList.Insert(_arrayList.IndexOf(_arrayList.Count/2),i);
+        }
     }
 
     public void Clear()
@@ -26,6 +29,10 @@ public class ArrayListWrapper : IListWrapper
 
     public void RemoveRepeatedly(int repeatCount)
     {
-        throw new System.NotImplementedException();
+        repeatCount = Mathf.Min(_arrayList.Count, repeatCount);
+        for (int i = 0; i < repeatCount; i++)
+        {
+            _arrayList.Remove(_arrayList.Count/2);
+        }
     }
 }

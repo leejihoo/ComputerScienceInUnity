@@ -16,7 +16,10 @@ public class ListIntWrapper : IListWrapper
 
     public void InsertRepeatedly(int repeatCount)
     {
-        throw new System.NotImplementedException();
+        for (int i = 0; i < repeatCount; i++)
+        {
+            _list.Insert(_list.IndexOf(_list.Count/2),i);
+        }
     }
 
     public void Clear()
@@ -26,6 +29,10 @@ public class ListIntWrapper : IListWrapper
 
     public void RemoveRepeatedly(int repeatCount)
     {
-        throw new System.NotImplementedException();
+        repeatCount = Mathf.Min(_list.Count, repeatCount);
+        for (int i = 0; i < repeatCount; i++)
+        {
+            _list.Remove(_list.Count/2);
+        }
     }
 }

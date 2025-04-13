@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class LinkedListWrapper : IListWrapper
 {
@@ -8,13 +9,17 @@ public class LinkedListWrapper : IListWrapper
     {
         for (int i = 0; i < repeatCount; i++)
         {
-            _linkedList.AddFirst(i);
+            _linkedList.AddLast(i);
         }
     }
 
     public void InsertRepeatedly(int repeatCount)
     {
-        throw new System.NotImplementedException();
+        for (int i = 0; i < repeatCount; i++)
+        {
+            var target = _linkedList.Find(_linkedList.Count/2);
+            _linkedList.AddAfter(target, 4);
+        }
     }
 
     public void Clear()
@@ -24,6 +29,10 @@ public class LinkedListWrapper : IListWrapper
 
     public void RemoveRepeatedly(int repeatCount)
     {
-        throw new System.NotImplementedException();
+        repeatCount = Mathf.Min(_linkedList.Count, repeatCount);
+        for (int i = 0; i < repeatCount; i++)
+        {
+            _linkedList.Remove(_linkedList.Count/2);
+        }
     }
 }

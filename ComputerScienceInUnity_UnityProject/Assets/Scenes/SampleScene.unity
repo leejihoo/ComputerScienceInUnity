@@ -1652,7 +1652,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 432899037}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1484668413}
+        m_TargetAssemblyTypeName: AddUIController, Assembly-CSharp
+        m_MethodName: ExecuteButton_Clicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &432899037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3698,7 +3710,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 930884363}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1245747586}
+        m_TargetAssemblyTypeName: ListWrappersController, Assembly-CSharp
+        m_MethodName: ExecuteButton_Clicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &930884363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4674,6 +4698,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1245747584}
   - component: {fileID: 1245747585}
+  - component: {fileID: 1245747586}
   m_Layer: 5
   m_Name: InsertUI
   m_TagString: Untagged
@@ -4729,6 +4754,27 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1245747586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245747583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0b90fea409df654aa8025619384bf4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _repeatCount: {fileID: 1921605523}
+  _sticks:
+  - {fileID: 13309459}
+  - {fileID: 385027286}
+  - {fileID: 1863438930}
+  - {fileID: 2001432041}
+  _executeButton: {fileID: 930884362}
+  _clearButton: {fileID: 213273596}
+  _functionType: 1
 --- !u!1 &1299475108
 GameObject:
   m_ObjectHideFlags: 0
@@ -5274,6 +5320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1484668411}
   - component: {fileID: 1484668412}
+  - component: {fileID: 1484668413}
   m_Layer: 5
   m_Name: RemoveUI
   m_TagString: Untagged
@@ -5329,6 +5376,27 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1484668413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484668410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0b90fea409df654aa8025619384bf4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _repeatCount: {fileID: 1715268529}
+  _sticks:
+  - {fileID: 13309459}
+  - {fileID: 385027286}
+  - {fileID: 1863438930}
+  - {fileID: 2001432041}
+  _executeButton: {fileID: 432899036}
+  _clearButton: {fileID: 213273596}
+  _functionType: 2
 --- !u!1 &1489164955
 GameObject:
   m_ObjectHideFlags: 0
@@ -5415,6 +5483,7 @@ MonoBehaviour:
   - {fileID: 2001432041}
   _executeButton: {fileID: 161136229}
   _clearButton: {fileID: 213273596}
+  _functionType: 0
 --- !u!1 &1521360221
 GameObject:
   m_ObjectHideFlags: 0

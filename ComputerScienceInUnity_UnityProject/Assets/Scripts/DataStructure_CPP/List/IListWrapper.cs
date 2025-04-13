@@ -58,3 +58,10 @@ public interface IListWrapper
         stick.GetComponent<BarController>().TimeText.text = text;
     }
 }
+
+public enum FunctionType
+{
+    Add,
+    Insert,
+    Remove
+}
