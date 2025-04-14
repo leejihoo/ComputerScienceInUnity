@@ -13,6 +13,7 @@ public interface IListWrapper
     public void InsertRepeatedly(int repeatCount);
     public void Clear();
     public void RemoveRepeatedly(int repeatCount);
+    public void Search(int target);
 
     public async UniTask MeasurePerformance(int repeatCount, Action<int> target, GameObject graphStick)
     {
@@ -63,5 +64,6 @@ public enum FunctionType
 {
     Add,
     Insert,
-    Remove
+    Remove,
+    Search
 }

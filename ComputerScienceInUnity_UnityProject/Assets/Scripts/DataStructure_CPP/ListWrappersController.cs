@@ -69,6 +69,9 @@ public class ListWrappersController : MonoBehaviour
                 case FunctionType.Remove:
                     task = wrapper.MeasurePerformance(repeatCount, wrapper.RemoveRepeatedly, _sticks[i]);
                     break;
+                case FunctionType.Search:
+                    task = wrapper.MeasurePerformance(repeatCount, wrapper.Search, _sticks[i]);
+                    break;
             }
             
             tasks.Add(task);

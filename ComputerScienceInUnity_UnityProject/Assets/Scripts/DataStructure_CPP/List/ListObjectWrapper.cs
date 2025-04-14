@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ListObjectWrapper : IListWrapper
@@ -34,5 +35,10 @@ public class ListObjectWrapper : IListWrapper
         {
             _list.Remove(_list.Count/2);
         }
+    }
+
+    public void Search(int target)
+    {
+        _list.Contains(target);
     }
 }

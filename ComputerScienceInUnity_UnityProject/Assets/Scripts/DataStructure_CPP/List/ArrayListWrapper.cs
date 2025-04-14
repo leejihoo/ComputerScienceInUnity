@@ -35,4 +35,9 @@ public class ArrayListWrapper : IListWrapper
             _arrayList.Remove(_arrayList.Count/2);
         }
     }
+
+    public void Search(int target)
+    {
+        _arrayList.Contains(target);
+    }
 }

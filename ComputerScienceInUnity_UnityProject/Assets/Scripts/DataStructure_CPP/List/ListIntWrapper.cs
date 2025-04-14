@@ -35,4 +35,9 @@ public class ListIntWrapper : IListWrapper
             _list.Remove(_list.Count/2);
         }
     }
+
+    public void Search(int target)
+    {
+        _list.Contains(target);
+    }
 }

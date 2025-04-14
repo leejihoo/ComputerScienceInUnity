@@ -35,4 +35,9 @@ public class LinkedListWrapper : IListWrapper
             _linkedList.Remove(_linkedList.Count/2);
         }
     }
+
+    public void Search(int target)
+    {
+        _linkedList.Contains(target);
+    }
 }
