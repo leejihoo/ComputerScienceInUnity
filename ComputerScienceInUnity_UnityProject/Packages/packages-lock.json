@@ -1,5 +1,19 @@
 {
   "dependencies": {
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "06067cd4c83e372310d6f79d1c625f6870ff7a2a"
+    },
+    "com.pimdewitte.unitymainthreaddispatcher": {
+      "version": "https://github.com/PimDeWitte/UnityMainThreadDispatcher.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "7512c2b85ef0cef92090df77ec5fd530bb199852"
+    },
     "com.unity.collab-proxy": {
       "version": "1.17.6",
       "depth": 0,
